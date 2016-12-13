@@ -5,5 +5,5 @@ Current Progress
 
 Chapters Completed:
 
-Chapter 00
-Chapter 01
+Chapter 00<br/>
+Chapter 01<br/>
