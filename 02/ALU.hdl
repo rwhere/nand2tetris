@@ -42,5 +42,43 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    Not(in=zx, out=notzx);
+    Not(in=zy, out=notzy);
+    And16(a=x, b[0]=notzx, b[1]=notzx, b[2]=notzx, b[3]=notzx, b[4]=notzx, b[5]=notzx, b[6]=notzx, b[7]=notzx, b[8]=notzx, 
+        b[9]=notzx, b[10]=notzx, b[11]=notzx, b[12]=notzx, b[13]=notzx, b[14]=notzx, b[15]=notzx, out=xout1);
+    And16(a=y, b[0]=notzy, b[1]=notzy, b[2]=notzy, b[3]=notzy, b[4]=notzy, b[5]=notzy, b[6]=notzy, b[7]=notzy, b[8]=notzy, 
+        b[9]=notzy, b[10]=notzy, b[11]=notzy, b[12]=notzy, b[13]=notzy, b[14]=notzy, b[15]=notzy, out=yout1);
+    Not16(in=xout1, out=xoutn);
+    Not16(in=yout1, out=youtn);
+    Not(in=nx, out=notnx);
+    And16(a=xoutn, b[0]=nx, b[1]=nx, b[2]=nx, b[3]=nx, b[4]=nx, b[5]=nx, b[6]=nx, b[7]=nx, b[8]=nx, b[9]=nx, b[10]=nx, 
+        b[11]=nx, b[12]=nx, b[13]=nx, b[14]=nx, b[15]=nx, out=xout2);
+    And16(a=xout1, b[0]=notnx, b[1]=notnx, b[2]=notnx, b[3]=notnx, b[4]=notnx, b[5]=notnx, b[6]=notnx, b[7]=notnx, b[8]=notnx, 
+        b[9]=notnx, b[10]=notnx, b[11]=notnx, b[12]=notnx, b[13]=notnx, b[14]=notnx, b[15]=notnx, out=xout3);
+    Or16(a=xout2, b=xout3, out=xoutf);
+    Not(in=ny, out=notny);
+    And16(a=youtn, b[0]=ny, b[1]=ny, b[2]=ny, b[3]=ny, b[4]=ny, b[5]=ny, b[6]=ny, b[7]=ny, b[8]=ny, b[9]=ny, b[10]=ny, 
+        b[11]=ny, b[12]=ny, b[13]=ny, b[14]=ny, b[15]=ny, out=yout2);
+    And16(a=yout1, b[0]=notny, b[1]=notny, b[2]=notny, b[3]=notny, b[4]=notny, b[5]=notny, b[6]=notny, b[7]=notny, b[8]=notny, 
+        b[9]=notny, b[10]=notny, b[11]=notny, b[12]=notny, b[13]=notny, b[14]=notny, b[15]=notny, out=yout3);
+    Or16(a=yout2, b=yout3, out=youtf);
+    Add16(a=xoutf, b=youtf, out=sum);
+    And16(a=xoutf, b=youtf, out=and);
+    Not(in=f, out=notf);
+    And16(a=sum, b[0]=f, b[1]=f, b[2]=f, b[3]=f, b[4]=f, b[5]=f, b[6]=f, b[7]=f, b[8]=f, b[9]=f, b[10]=f, b[11]=f, b[12]=f, 
+        b[13]=f, b[14]=f, b[15]=f, out=sum1);
+    And16(a=and, b[0]=notf, b[1]=notf, b[2]=notf, b[3]=notf, b[4]=notf, b[5]=notf, b[6]=notf, b[7]=notf, b[8]=notf, b[9]=notf,  b[10]=notf, b[11]=notf, b[12]=notf, b[13]=notf, b[14]=notf, b[15]=notf, out=and1);
+    Or16(a=sum1, b=and1, out=alures);
+    Not(in=no, out=notno);
+    Not16(in=alures, out=nalures);
+    And16(a=alures, b[0]=notno, b[1]=notno, b[2]=notno, b[3]=notno, b[4]=notno, b[5]=notno, b[6]=notno, b[7]=notno, 
+        b[8]=notno, b[9]=notno, b[10]=notno, b[11]=notno, b[12]=notno, b[13]=notno, b[14]=notno, b[15]=notno, out=alures1);
+    And16(a=nalures, b[0]=no, b[1]=no, b[2]=no, b[3]=no, b[4]=no, b[5]=no, b[6]=no, b[7]=no, 
+        b[8]=no, b[9]=no, b[10]=no, b[11]=no, b[12]=no, b[13]=no, b[14]=no, b[15]=no, out=alures2);
+    Or16(a=alures1, b=alures2, out=out, out[15]=ng, out[0]=aa, out[1]=bb, out[2]=cc, out[3]=dd, out[4]=ee, out[5]=ff, 
+        out[6]=gg, out[7]=hh, out[8]=ii, out[9]=jj, out[10]=kk, out[11]=ll, out[12]=mm, out[13]=nn, out[14]=oo, out[15]=pp);
+    Or8Way(in[0]=aa, in[1]=bb, in[2]=cc, in[3]=dd, in[4]=ee, in[5]=ff, in[6]=gg, in[7]=hh, out=zr1);
+    Or8Way(in[0]=ii, in[1]=jj, in[2]=kk, in[3]=ll, in[4]=mm, in[5]=nn, in[6]=oo, in[7]=pp, out=zr2);
+    Or(a=zr1, b=zr2, out=zr3);
+    Not(in=zr3, out=zr);
 }
