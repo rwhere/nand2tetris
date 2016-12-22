@@ -11,4 +11,64 @@
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
 
-// Put your code here.
+//optimization: no need to blacken or unblacken if already done => keep track of state
+
+(LOOP)
+@24576
+D=M
+@UNBLACKEN
+D;JEQ
+@BLACKEN
+0;JMP
+
+(UNBLACKEN)
+@24575
+D=A
+@5
+M=D
+@16384
+D=A
+@6
+M=D
+(LOOP1)
+@5
+D=M
+@6
+D=D-M
+@LOOP
+D;JEQ
+@6
+A=M
+M=0
+@1
+D=A
+@6
+M=M+D
+@LOOP1
+0;JMP
+
+(BLACKEN)
+@24575
+D=A
+@5
+M=D
+@16384
+D=A
+@6
+M=D
+(LOOP2)
+@5
+D=M
+@6
+D=D-M
+@LOOP
+D;JEQ
+@6
+A=M
+M=-1
+@1
+D=A
+@6
+M=M+D
+@LOOP2
+0;JMP
